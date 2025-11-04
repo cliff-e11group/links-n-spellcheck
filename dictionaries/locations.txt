@@ -1,0 +1,9 @@
+# Add location names relevant to your genealogy research
+# Include counties, cities, states, countries, etc.
+# Example:
+# massachusetts
+# yorkshire
+# bavaria
+# county
+# parish
+# township

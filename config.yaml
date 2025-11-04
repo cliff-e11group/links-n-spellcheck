@@ -1,0 +1,83 @@
+# Website Spell Checker Configuration
+
+# Feature toggles (can be overridden with command-line arguments)
+features:
+  enable_spell_checking: true   # Enable/disable spell checking
+  enable_link_checking: true    # Enable/disable broken link detection
+
+# Website settings
+website:
+  url: "https://amwa-doc.org/"  # Replace with your website URL
+  max_pages: 0  # Maximum number of pages to crawl (0 for unlimited)
+  max_depth: 3    # Maximum crawl depth for recursive crawling
+  delay: 1.0      # Delay between requests in seconds
+
+# Crawling strategy
+crawling:
+  use_sitemap: true
+  sitemap_url: "https://amwa-doc.org/sitemap_index.xml"  # Leave empty to auto-detect
+  recursive_fallback: true
+  follow_external_links: false
+  check_external_links: true  # Check external links for broken links
+  external_link_timeout: 10   # Timeout for external link checks (seconds)
+  
+  # URL patterns to include/exclude
+  include_patterns:
+    - "*.html"
+    - "*.htm"
+    - "*/"
+    - "*/?"
+    - "*"
+  exclude_patterns:
+    - "*/admin/*"
+    - "*/wp-admin/*"
+    - "*/login/*"
+    - "*.pdf"
+    - "*.jpg"
+    - "*.png"
+    - "*.gif"
+
+# Text extraction settings
+text_extraction:
+  skip_navigation: true
+  skip_footer: true
+  skip_sidebar: true
+  min_word_length: 3
+  
+  # HTML elements to ignore
+  ignore_elements:
+    - "script"
+    - "style"
+    - "nav"
+    - "header"
+    - "footer"
+
+# Spell checking settings
+spell_checking:
+  language: "en"
+  min_word_length: 3
+  check_proper_nouns: false
+  confidence_threshold: 0.8
+  
+  # Custom dictionary files
+  custom_dictionaries:
+    - "dictionaries/genealogy_terms.txt"
+    - "dictionaries/family_names.txt"
+    - "dictionaries/place_names.txt"
+
+# Reporting settings
+reporting:
+  output_dir: "reports"
+  html_report: true
+  csv_report: true
+  include_suggestions: true
+  max_suggestions: 5
+  show_context: true
+  context_length: 50  # Characters before/after the misspelled word
+
+# Performance settings
+performance:
+  max_workers: 5
+  chunk_size: 10
+  enable_caching: true
+  cache_duration: 3600  # seconds

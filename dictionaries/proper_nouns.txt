@@ -1,0 +1,9 @@
+# Add your family surnames here, one per line
+# Example:
+# smith
+# johnson
+# williams
+# brown
+# jones
+ghawazeefair
+wellstest
