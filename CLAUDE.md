@@ -159,27 +159,34 @@ Built a comprehensive Python-based website health checker. The tool performs bot
     - Cleaned dictionary files to have generic examples
     - Rewrote README.md to be concise and applicable to any website type
     - Updated configuration examples to use generic placeholder URLs
+    - **Cleaned up test files**:
+      - Deleted `test_genealogy_page.py` (hardcoded to specific genealogy site)
+      - Deleted `test_image_links.py` (hardcoded to specific genealogy site)
+      - Deleted `test_output.log` (old log file)
+      - Updated `test_spellcheck.py` with generic test words (website, webinar, etc.)
+      - Updated `test_email_domain_filter.py` with generic domain examples
   - **Result**: Tool now suitable for any website maintenance use case while retaining all functionality
 
 ## File Structure
 ```
 website_spellcheck/
-├── CLAUDE.md                    # This development log
-├── README.md                    # User documentation
-├── requirements.txt             # Python dependencies
-├── config.yaml                  # Configuration settings
-├── setup.sh                     # Installation script
-├── website_spellcheck.py        # Main application
-├── test_spellcheck.py          # Debug testing script
-├── regenerate_report.py        # Standalone HTML report regenerator
-├── dictionaries/                # Custom word lists
-│   ├── custom_terms.txt        # Domain-specific vocabulary
-│   ├── proper_nouns.txt        # Names, brands, organizations
-│   └── locations.txt           # Geographic locations
-└── reports/                     # Generated output
-    ├── spell_check_report.html # Interactive tabbed report
-    ├── spelling_errors.csv     # Spelling data
-    └── broken_links.csv        # Broken link data
+├── CLAUDE.md                       # This development log
+├── README.md                       # User documentation
+├── requirements.txt                # Python dependencies
+├── config.yaml                     # Configuration settings
+├── setup.sh                        # Installation script
+├── website_spellcheck.py           # Main application
+├── regenerate_report.py            # Standalone HTML report regenerator
+├── test_spellcheck.py              # Spell checker test script
+├── test_email_domain_filter.py     # Email/domain filtering test script
+├── dictionaries/                   # Custom word lists
+│   ├── custom_terms.txt           # Domain-specific vocabulary
+│   ├── proper_nouns.txt           # Names, brands, organizations
+│   └── locations.txt              # Geographic locations
+└── reports/                        # Generated output
+    ├── spell_check_report.html    # Interactive tabbed report
+    ├── spelling_errors.csv        # Spelling data
+    └── broken_links.csv           # Broken link data
 ```
 
 ## Configuration
@@ -235,6 +242,9 @@ The system is highly configurable via `config.yaml`:
 - Feature toggle testing: Verified both features work independently and together
 - Fixed-width layout tested with extremely long URLs (200+ characters)
 - Report regeneration tested with large datasets (60+ spelling errors, 2400+ broken links)
+- **Test Scripts Available**:
+  - `test_spellcheck.py` - Validates spell checker functionality with test words
+  - `test_email_domain_filter.py` - Verifies email/domain filtering accuracy
 
 ## Current Status
 ✅ **Fully Functional Website Health Checker**
