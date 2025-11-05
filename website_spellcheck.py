@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Website Spell Checker
-A comprehensive tool for crawling websites and performing spell checking on content.
-Designed specifically for genealogy websites with custom dictionary support.
+A comprehensive tool for crawling websites and performing spell checking on content
+with custom dictionary support.
 """
 
 import argparse
@@ -36,7 +36,7 @@ class WebsiteSpellChecker:
         self.config = self._load_config(config_path)
         self.session = requests.Session()
         self.session.headers.update({
-            'User-Agent': 'WebsiteSpellChecker/1.0 (Genealogy Site Checker)'
+            'User-Agent': 'WebsiteSpellChecker/1.0'
         })
 
         # Determine which features are enabled
@@ -446,7 +446,7 @@ class WebsiteSpellChecker:
                 if match.start() <= word_start_in_context < match.end():
                     return True
         
-        # Check for compound domain-like words (familysearch, familytree, etc.)
+        # Check for compound domain-like words
         # Look for patterns like: word1word2.tld or word1word2word3.tld
         compound_domain_pattern = r'\b[a-zA-Z]+[a-zA-Z0-9]*\.(com|org|net|edu|gov|info)\b'
         for match in re.finditer(compound_domain_pattern, context, re.IGNORECASE):
@@ -454,21 +454,7 @@ class WebsiteSpellChecker:
             domain_part = match.group().split('.')[0].lower()
             if word in domain_part and len(word) >= 4:  # Only for longer fragments
                 return True
-        
-        # Check for specific genealogy website fragments
-        genealogy_sites = [
-            'familysearch', 'ancestry', 'myheritage', 'findmypast', 'genealogybank',
-            'familytree', 'rootsweb', 'geni', 'wikitree', 'billiongraves',
-            'findagrave', 'newspapers', 'chroniclingamerica', 'familytreemagazine'
-        ]
-        
-        # Check if word is a fragment of a known genealogy site
-        for site in genealogy_sites:
-            if word in site and len(word) >= 4:
-                # Check if the full site name appears in the context
-                if site in context.lower():
-                    return True
-        
+
         return False
     
     def _check_all_links_on_page(self, html_content: str, source_url: str):
@@ -807,7 +793,7 @@ class WebsiteSpellChecker:
             <div class="header">
                 <h1>Website Health Check Report</h1>
                 <p>Generated on: {timestamp}</p>
-                <p>Comprehensive spell checking and broken link detection for your genealogy website</p>
+                <p>Comprehensive spell checking and broken link detection for your website</p>
             </div>
             
             {stats_section}

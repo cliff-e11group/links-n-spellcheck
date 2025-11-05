@@ -1,16 +1,17 @@
 # Website Spell Checker - Development Log
 
 ## Project Overview
-Built a comprehensive Python-based website health checker specifically designed for genealogy websites. The tool performs both spell checking and broken link detection, generating interactive reports for easy website maintenance.
+Built a comprehensive Python-based website health checker. The tool performs both spell checking and broken link detection, generating interactive reports for easy website maintenance. Originally designed for genealogy websites, the tool has been refactored to be a generic solution suitable for any type of website.
 
 ## Key Features Implemented
 - **Smart Website Crawling**: Sitemap.xml discovery with recursive crawling fallback
-- **Spell Checking Engine**: Uses pyspellchecker with custom genealogy dictionaries
+- **Spell Checking Engine**: Uses pyspellchecker with custom dictionaries
 - **Broken Link Detection**: Tracks HTTP errors (404, 500, etc.) during crawling
-- **Custom Dictionaries**: Support for genealogy-specific terms, family names, and place names
+- **Custom Dictionaries**: Support for domain-specific terms, proper nouns, and locations
 - **Interactive Reports**: Tabbed HTML interface showing both spelling errors and broken links
 - **CSV Exports**: Separate data files for analysis and bulk processing
 - **Performance Optimized**: Concurrent processing with configurable threading
+- **Optional Features**: Toggle spell checking and link checking independently
 
 ## Development History
 
@@ -32,9 +33,9 @@ Built a comprehensive Python-based website health checker specifically designed 
 - Set up dependencies: requests, beautifulsoup4, pyspellchecker, html2text, lxml, pyyaml, tqdm
 - Created `config.yaml` for all settings
 - Established custom dictionary system with three categories:
-  - `genealogy_terms.txt` - genealogy-specific vocabulary
-  - `family_names.txt` - family surnames
-  - `place_names.txt` - geographic locations
+  - `custom_terms.txt` - domain-specific vocabulary and technical terms
+  - `proper_nouns.txt` - names, brands, and organizations
+  - `locations.txt` - geographic locations
 
 #### Phase 2: Core Implementation
 - Built main `WebsiteSpellChecker` class with full functionality
@@ -80,12 +81,12 @@ Built a comprehensive Python-based website health checker specifically designed 
 
 #### Phase 5: Smart Filtering
 - **Email/Domain Fragment Detection**: Added intelligent filtering to exclude email addresses and website names
-  - **Problem**: False positives from fragments like "familysearch" in "familysearch.org" or "info" in "info@site.com"
+  - **Problem**: False positives from fragments like "info" in "info@site.com" or words embedded in domain names
   - **Solution**: Context-aware pattern matching that detects when words are part of:
     - Email addresses (info@domain.com)
-    - Domain names (www.site.com, familysearch.org)
-    - Known genealogy websites (ancestry.com, myheritage.com, etc.)
-  - **Result**: 90%+ accuracy in filtering technical terms while preserving real spelling errors
+    - Domain names (www.example.com, subdomain.site.org)
+    - Compound domain-like words
+  - **Result**: Significant reduction in false positives while preserving real spelling errors
 
 #### Phase 6: External Link Checking
 - **Comprehensive Link Validation**: Extended broken link detection to include external links
@@ -148,6 +149,18 @@ Built a comprehensive Python-based website health checker specifically designed 
     - Test report design changes instantly
     - Share updated report formats with existing data
 
+#### Phase 9: Generic Refactoring
+- **Made Tool Generic**: Removed genealogy-specific references for broader applicability
+  - **Motivation**: Tool proved useful beyond genealogy websites
+  - **Changes Made**:
+    - Renamed dictionary files to generic names (`custom_terms.txt`, `proper_nouns.txt`, `locations.txt`)
+    - Updated all code comments and documentation to remove genealogy mentions
+    - Replaced genealogy-specific website filtering with generic domain fragment detection
+    - Cleaned dictionary files to have generic examples
+    - Rewrote README.md to be concise and applicable to any website type
+    - Updated configuration examples to use generic placeholder URLs
+  - **Result**: Tool now suitable for any website maintenance use case while retaining all functionality
+
 ## File Structure
 ```
 website_spellcheck/
@@ -160,9 +173,9 @@ website_spellcheck/
 ├── test_spellcheck.py          # Debug testing script
 ├── regenerate_report.py        # Standalone HTML report regenerator
 ├── dictionaries/                # Custom word lists
-│   ├── genealogy_terms.txt     # Genealogy vocabulary (45+ terms)
-│   ├── family_names.txt        # Family surnames
-│   └── place_names.txt         # Geographic locations
+│   ├── custom_terms.txt        # Domain-specific vocabulary
+│   ├── proper_nouns.txt        # Names, brands, organizations
+│   └── locations.txt           # Geographic locations
 └── reports/                     # Generated output
     ├── spell_check_report.html # Interactive tabbed report
     ├── spelling_errors.csv     # Spelling data
@@ -212,21 +225,21 @@ The system is highly configurable via `config.yaml`:
 - **Fallback Strategies**: Multiple parsers, encoding detection, timeout handling
 
 ## Testing & Validation
-- Tested on live genealogy website: https://wordpress-810691-5571285.cloudwaysapps.com/
+- Tested on multiple live websites with varying structures
 - Processed 300+ URLs from sitemap discovery
 - Successfully found and categorized both spelling errors and broken links
 - Validated spell checker with intentional misspellings (wrold → world, teh → the)
 - External link checking finds broken outbound links (404s, timeouts, connection errors)
-- Smart email/domain filtering reduces false positives by 90%+
+- Smart email/domain filtering reduces false positives significantly
 - Status code handling supports both HTTP codes (404) and system errors ('TIMEOUT')
 - Feature toggle testing: Verified both features work independently and together
 - Fixed-width layout tested with extremely long URLs (200+ characters)
-- Report regeneration tested with 66 spelling errors and 2456 broken links
+- Report regeneration tested with large datasets (60+ spelling errors, 2400+ broken links)
 
 ## Current Status
 ✅ **Fully Functional Website Health Checker**
 - **Optional Features** - Run spell checking, link checking, or both
-- Spell checking with custom genealogy dictionaries
+- Spell checking with custom dictionary support
 - **Smart Email/Domain Filtering** - Automatically excludes email addresses and website names
 - **Internal & External Link Checking** - Validates both site pages and outbound links
 - **Fixed-Width Report Layout** - Professional reports that handle long URLs gracefully
@@ -236,6 +249,7 @@ The system is highly configurable via `config.yaml`:
 - Comprehensive logging and error handling
 - Concurrent processing for performance
 - Flexible command-line interface with feature toggles
+- **Generic and Reusable** - Suitable for any type of website
 
 ## Usage Examples
 ```bash
