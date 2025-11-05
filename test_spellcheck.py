@@ -30,17 +30,17 @@ spell_checker.word_frequency.load_words(custom_words)
 
 print(f"Dictionary size: {len(spell_checker.word_frequency.dictionary)}")
 
-# Test words - mix of correct, incorrect, and genealogy-specific terms
+# Test words - mix of correct, incorrect, and custom dictionary terms
 test_words = [
     "hello",      # should be correct
     "wrold",      # should be misspelled (world)
     "teh",        # should be misspelled (the)
-    "genealogy",  # should be correct (in our custom dict)
-    "ancestry",   # should be correct (in our custom dict)
-    "lineage",    # should be correct (in our custom dict)
+    "website",    # should be correct (in our custom dict)
+    "webinar",    # should be correct (in our custom dict)
+    "online",     # should be correct
     "spellling",  # should be misspelled (spelling)
     "mispelled",  # should be misspelled (misspelled)
-    "genealogical", # should be correct (in our custom dict)
+    "occured",    # should be misspelled (occurred)
     "notarealword" # should be misspelled
 ]
 

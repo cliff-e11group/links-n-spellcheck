@@ -10,15 +10,15 @@ from website_spellcheck import WebsiteSpellChecker
 
 # Test text with various email and domain patterns
 test_text = """
-Contact us at info@pastfindersslc.org for more information.
-Visit our website at www.familysearch.org for records.
-Check out familytreemagazine.com for articles.
-Find records on ancestry.com and myheritage.com.
-Email webmaster@genealogy.net for technical support.
+Contact us at info@example.org for more information.
+Visit our website at www.techcompany.com for details.
+Check out articlesite.com for resources.
+Find products on shopsite.com and marketplace.net.
+Email webmaster@support.net for technical support.
 The word misspelled should be caught.
 Another mispelling here should be flagged.
-But familysearch and familytree are legitimate sites.
-Also ancestry and myheritage are real companies.
+But techcompany and marketplace are legitimate sites.
+Also shopsite and articlesite are real companies.
 """
 
 def test_email_domain_filtering():
@@ -31,16 +31,16 @@ def test_email_domain_filtering():
     # Manually test the filtering function
     test_cases = [
         # Format: (word, text, should_be_filtered)
-        ("info", "Contact us at info@pastfindersslc.org", True),
-        ("pastfindersslc", "Contact us at info@pastfindersslc.org", True),
-        ("familysearch", "Visit www.familysearch.org for records", True),
-        ("familytree", "Check out familytreemagazine.com", True),
-        ("ancestry", "Find records on ancestry.com", True),
-        ("myheritage", "Also myheritage.com has records", True),
+        ("info", "Contact us at info@example.org", True),
+        ("example", "Contact us at info@example.org", True),
+        ("techcompany", "Visit www.techcompany.com for details", True),
+        ("articlesite", "Check out articlesite.com for resources", True),
+        ("shopsite", "Find products on shopsite.com", True),
+        ("marketplace", "Also marketplace.net has products", True),
         ("misspelled", "The word misspelled should be caught", False),
         ("mispelling", "Another mispelling here should be flagged", False),
-        ("genealogy", "Email webmaster@genealogy.net for support", True),
-        ("webmaster", "Email webmaster@genealogy.net for support", True),
+        ("support", "Email webmaster@support.net for help", True),
+        ("webmaster", "Email webmaster@support.net for help", True),
     ]
     
     print("Testing individual cases:")
@@ -79,12 +79,12 @@ def test_email_domain_filtering():
         print(f"  - '{error['word']}' -> {error['suggestions']}")
         print(f"    Context: {error['context'][:60]}...")
     
-    # Expected: Should find "misspelled" and "mispelling" but not domain fragments
+    # Expected: Should find "mispelling" but not domain fragments
     expected_errors = ["mispelling"]  # "misspelled" might be in dictionary
     found_words = [error['word'].lower() for error in errors]
-    
+
     filtered_correctly = not any(word in found_words for word in [
-        'info', 'pastfindersslc', 'familysearch', 'familytree', 'ancestry', 'myheritage', 'genealogy', 'webmaster'
+        'info', 'example', 'techcompany', 'articlesite', 'shopsite', 'marketplace', 'support', 'webmaster'
     ])
     
     if filtered_correctly:
