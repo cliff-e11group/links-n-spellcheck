@@ -171,18 +171,6 @@ Columns included:
 - `confidence` - Confidence score for the error
 - `timestamp` - When the error was found
 
-## Best Practices for Genealogy Sites
-
-1. **Family Names**: Add all family surnames you're researching to `family_names.txt`
-
-2. **Historical Places**: Include old place names, counties, and regions in `place_names.txt`
-
-3. **Archaic Terms**: Add historical and genealogical terminology to prevent false positives
-
-4. **Proper Nouns**: Consider setting `check_proper_nouns: false` to skip capitalized names
-
-5. **Rate Limiting**: Use appropriate delays (1-2 seconds) to be respectful to servers
-
 ## Troubleshooting
 
 ### Common Issues
@@ -234,4 +222,4 @@ Feel free to submit issues and enhancement requests. This tool is designed to be
 
 ## License
 
-This project is open source. Use it freely for your genealogy research and website maintenance needs.
+This project is open source. 
