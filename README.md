@@ -1,225 +1,161 @@
 # Website Spell Checker
 
-A comprehensive Python tool for crawling websites and performing spell checking on content, specifically designed for genealogy websites with custom dictionary support.
+A comprehensive Python tool for website health checking that performs spell checking and broken link detection with custom dictionary support.
 
 ## Features
 
-- **Smart Website Crawling**: Uses sitemap.xml discovery with recursive crawling fallback
-- **Custom Dictionaries**: Support for genealogy-specific terms, family names, and place names
-- **Multiple Report Formats**: Interactive HTML reports and CSV exports
-- **Performance Optimized**: Concurrent processing with configurable threading
-- **Flexible Configuration**: YAML-based configuration for all aspects of the tool
-- **Context-Aware**: Shows surrounding text for each spelling error
-- **Rate Limiting**: Respectful crawling with configurable delays
-
-## Installation
-
-1. **Clone or download this repository**
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+- **Smart Website Crawling** - Sitemap.xml discovery with recursive crawling fallback
+- **Spell Checking** - Comprehensive content analysis with custom dictionaries
+- **Broken Link Detection** - Internal and external link validation
+- **Custom Dictionaries** - Support for domain-specific terms, proper nouns, and locations
+- **Interactive Reports** - HTML reports with tabbed interface and CSV exports
+- **Optional Features** - Run spell checking, link checking, or both
+- **Concurrent Processing** - Multi-threaded for performance
 
 ## Quick Start
 
-1. **Edit the configuration file** (`config.yaml`):
-   ```yaml
-   website:
-     url: "https://your-genealogy-website.com"
-   ```
+### Installation
 
-2. **Add your custom terms** to the dictionary files:
-   - `dictionaries/family_names.txt` - Add family surnames
-   - `dictionaries/place_names.txt` - Add location names
-   - `dictionaries/genealogy_terms.txt` - Already populated with common terms
+```bash
+pip install -r requirements.txt
+```
 
-3. **Run the spell checker**:
-   ```bash
-   python website_spellcheck.py https://your-website.com
-   ```
+### Basic Usage
 
-4. **View the results**:
-   - HTML Report: `reports/spell_check_report.html`
-   - CSV Data: `reports/spell_check_report.csv`
+```bash
+# Check both spelling and links
+python3 website_spellcheck.py https://example.com
+
+# Link checking only
+python3 website_spellcheck.py https://example.com --no-spell-check
+
+# Spell checking only
+python3 website_spellcheck.py https://example.com --no-link-check
+
+# With verbose logging
+python3 website_spellcheck.py https://example.com -v
+```
+
+### View Results
+
+- **HTML Report**: `reports/spell_check_report.html`
+- **Spelling CSV**: `reports/spelling_errors.csv`
+- **Broken Links CSV**: `reports/broken_links.csv`
 
 ## Configuration
 
-The `config.yaml` file controls all aspects of the spell checker:
+Edit `config.yaml` to customize:
 
-### Website Settings
 ```yaml
+# Enable/disable features
+features:
+  enable_spell_checking: true
+  enable_link_checking: true
+
+# Crawling settings
 website:
   url: "https://example.com"
-  max_pages: 100        # Maximum pages to crawl (0 = unlimited)
-  max_depth: 3          # Maximum crawl depth
-  delay: 1.0           # Delay between requests (seconds)
-```
+  max_pages: 0  # 0 = unlimited
+  max_depth: 3
+  delay: 1.0
 
-### Crawling Strategy
-```yaml
-crawling:
-  use_sitemap: true           # Try sitemap.xml first
-  recursive_fallback: true    # Use recursive crawling if no sitemap
-  follow_external_links: false
-  
-  include_patterns:           # URL patterns to include
-    - "*.html"
-    - "*.htm"
-  exclude_patterns:           # URL patterns to exclude
-    - "*/admin/*"
-    - "*.pdf"
-```
-
-### Spell Checking
-```yaml
+# Spell checking
 spell_checking:
   language: "en"
   min_word_length: 3
-  check_proper_nouns: false   # Skip capitalized words
-  confidence_threshold: 0.8
-  
-  custom_dictionaries:       # Your custom word lists
-    - "dictionaries/genealogy_terms.txt"
-    - "dictionaries/family_names.txt"
-    - "dictionaries/place_names.txt"
-```
+  check_proper_nouns: false
+  custom_dictionaries:
+    - "dictionaries/custom_terms.txt"
+    - "dictionaries/proper_nouns.txt"
+    - "dictionaries/locations.txt"
 
-### Performance
-```yaml
+# Performance
 performance:
-  max_workers: 5       # Concurrent processing threads
-  chunk_size: 10       # Pages per processing batch
-  enable_caching: true # Cache results for efficiency
+  max_workers: 5
 ```
 
 ## Custom Dictionaries
 
-### Adding Family Names
-Edit `dictionaries/family_names.txt`:
+Add domain-specific vocabulary to avoid false positives:
+
+**`dictionaries/custom_terms.txt`** - Technical terms, jargon, abbreviations
 ```
-smith
-johnson
-mcpherson
-o'connell
-van der berg
+website
+webinar
+api
 ```
 
-### Adding Place Names
-Edit `dictionaries/place_names.txt`:
+**`dictionaries/proper_nouns.txt`** - Names, brands, organizations
 ```
-massachusetts
-yorkshire
-bavaria
-philadelphia
-dublin
+acme
+techcorp
 ```
 
-### Adding Genealogy Terms
-The `dictionaries/genealogy_terms.txt` file is pre-populated but you can add more:
+**`dictionaries/locations.txt`** - Cities, states, countries
 ```
-genealogy
-ancestry
-lineage
-pedigree
-probate
-baptism
+california
+toronto
 ```
 
 ## Command Line Options
 
 ```bash
-python website_spellcheck.py [URL] [OPTIONS]
+python3 website_spellcheck.py [URL] [OPTIONS]
+
+Arguments:
+  URL                      Website URL to check
 
 Options:
-  -c, --config CONFIG    Configuration file path (default: config.yaml)
-  -v, --verbose         Enable verbose logging
-  -h, --help           Show help message
+  -c, --config FILE        Configuration file (default: config.yaml)
+  -v, --verbose           Enable verbose logging
+  --spell-check           Enable spell checking
+  --no-spell-check        Disable spell checking
+  --link-check            Enable link checking
+  --no-link-check         Disable link checking
+  -h, --help              Show help message
 ```
 
-### Examples
-
-**Basic usage**:
-```bash
-python website_spellcheck.py https://mygenealogy.com
-```
-
-**Custom config file**:
-```bash
-python website_spellcheck.py https://mysite.com -c my_config.yaml
-```
-
-**Verbose output**:
-```bash
-python website_spellcheck.py https://mysite.com -v
-```
-
-## Output Reports
+## Report Features
 
 ### HTML Report
-- **Interactive table** with sortable columns
-- **Direct links** to pages with errors
-- **Context preview** showing surrounding text
-- **Statistics dashboard** with processing summary
-- **Suggestions** for each misspelled word
+- Interactive tabbed interface (Spelling Errors / Broken Links)
+- Sortable columns
+- Direct links to problem pages
+- Context preview for spelling errors
+- Visual indicators for link types (internal/external)
+- Statistics dashboard
 
-### CSV Report
-Columns included:
-- `url` - Page where error was found
-- `word` - The misspelled word
-- `suggestions` - Comma-separated correction suggestions
-- `context` - Surrounding text context
-- `confidence` - Confidence score for the error
-- `timestamp` - When the error was found
+### CSV Reports
+- Importable data for analysis
+- Timestamp tracking
+- Full context and suggestions
 
 ## Troubleshooting
 
-### Common Issues
+**No URLs found**
+- Verify website has sitemap.xml or enable `recursive_fallback`
+- Check URL is accessible
 
-**"No URLs found to process"**
-- Check if the website has a sitemap.xml
-- Enable `recursive_fallback: true` in config
-- Verify the base URL is accessible
+**Too many false positives**
+- Add terms to custom dictionaries
+- Set `check_proper_nouns: false`
+- Increase `min_word_length`
 
-**"Too many false positives"**
-- Add terms to your custom dictionaries
-- Set `check_proper_nouns: false` 
-- Increase `confidence_threshold`
-
-**"Slow processing"**
-- Reduce `max_workers` if hitting rate limits
+**Slow processing**
+- Reduce `max_workers`
 - Increase `delay` between requests
 - Limit `max_pages` for testing
 
-**"Memory issues with large sites"**
-- Reduce `max_pages` and `max_workers`
-- Process site in sections using URL patterns
+## Dependencies
 
-### Logs and Debugging
-
-- Check `spellcheck.log` for detailed processing information
-- Use `-v` flag for verbose console output
-- Monitor the progress bar for processing status
-
-## Technical Details
-
-### Libraries Used
-- **requests**: HTTP client for web crawling
-- **BeautifulSoup**: HTML parsing and text extraction  
-- **pyspellchecker**: Pure Python spell checking
-- **html2text**: Clean text extraction from HTML
-- **PyYAML**: Configuration file parsing
-- **tqdm**: Progress bars for better UX
-
-### Architecture
-- **Modular Design**: Separate components for crawling, text extraction, spell checking
-- **Concurrent Processing**: Thread-pool based processing for performance
-- **Memory Efficient**: Streaming processing to handle large websites
-- **Error Resilient**: Continues processing even if individual pages fail
-
-## Contributing
-
-Feel free to submit issues and enhancement requests. This tool is designed to be easily extensible for different types of websites and use cases.
+- requests - HTTP client
+- beautifulsoup4 - HTML parsing
+- pyspellchecker - Spell checking
+- html2text - Text extraction
+- lxml - XML parsing
+- pyyaml - Configuration
+- tqdm - Progress bars
 
 ## License
 
-This project is open source. 
+Open source. Use freely for website maintenance and quality assurance.
