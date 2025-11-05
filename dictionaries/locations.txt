@@ -1,9 +1,11 @@
-# Add location names relevant to your genealogy research
-# Include counties, cities, states, countries, etc.
-# Example:
+# Location names
+# Add cities, states, countries, regions, or other geographic locations
+# Examples:
 # massachusetts
-# yorkshire
-# bavaria
+# california
+# toronto
+# london
 # county
-# parish
-# township
+# city
+
+# Add your own locations below:

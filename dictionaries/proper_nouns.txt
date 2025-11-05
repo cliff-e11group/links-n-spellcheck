@@ -1,9 +1,9 @@
-# Add your family surnames here, one per line
-# Example:
+# Proper nouns - names, brands, organizations, etc.
+# Add company names, product names, brand names, or personal names
+# Examples:
 # smith
 # johnson
-# williams
-# brown
-# jones
-ghawazeefair
-wellstest
+# acme
+# techcorp
+
+# Add your own proper nouns below:
